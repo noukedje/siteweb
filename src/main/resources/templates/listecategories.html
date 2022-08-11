@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head> 
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+<body>
+    <h1>Liste de produits</h1>
+    <ol th:each="produit: ${listeproduits}">
+      <li th:text="${produit.designation}"></li>
+      <li th:text="${produit.description}"></li>
+      <li th:text="${produit.pu}"></li>
+      <li th:text="${produit.qtestock}"></li>
+      <li th:text="${produit.photo}"></li>
+      <li><a th:href="${'/editprod/'}+${produit.id}">Edit</a></li>
+      <li><a th:href="${'/delprod/'}+${produit.id}">Delete</a><li>
+    </ol>
+    
+   <!-- <tr>
+        <div class="col-sm-5" align="center">
+        <div class="panel-body" align="center">
+          <table class="table">
+          <thead class="thead-dark">
+          <tr>
+           <th>ID</th> 
+           <th>Nom</th>
+           <th>Description</th>
+           <th>Photo</th>
+           <th>Edit</th>
+           <th>Delete</th>  
+          </tr>
+          <tbody>
+             <tr th:each="produit : ${listproduit}">
+             <td th:text="${produit.id}">ID</td>
+	         <td th:text="${produit.designation}">Nom</td>
+             <td th:text="${produit.description}">Description</td>
+             <td th:text="${produit.photo}">Photo</td>
+             <td><a th:href="${'/edit/'}+${student.id}">Edit</a></td>
+             <td><a th:href="${'/delete/'}+${student.id}">Delete</a></td>
+             </tr>
+          </tbody>  
+        </table> 
+   </div>-->
+</body>
+</html>

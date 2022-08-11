@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bienvenue sur Reference-Plus</title>
+	<link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" th:href="@{/images/favicon.ico}">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link href="../static/css/mystyle.css" th:href="@{/css/mystyle.css}" rel="stylesheet">
+    <link href="../static/css/form-validation.css" th:href="@{/css/form-validation.css}" rel="stylesheet">  
+ 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=neon|outline|emboss|shadow-multiple">
+ 	<link href="../static/css/form-validation.css" th:href="@{/css/form-validation.css}" rel="stylesheet">  
+   <link href="../static/css/fontawesome/css/all.css" th:href="@{/css/fontawesome/css/all.css}" rel="stylesheet">
+     <script defer src="../static/js/friconix-0.2248.js" th:src="@{/js/friconix.js}"> </script>
+	<style>
+		body {
+		  font-family: "Sofia", sans-serif;
+		}
+	</style>
+	<script>
+	    function AddProductToCart(id,qte)
+			{
+				$.ajax ({ 
+			        url: '/cart/items/'+id+'/'+qte,
+			        type: 'POST', 
+			        //dataType: 'json',
+			        //contentType: 'application/json',
+			        //data : '{"id":"'+ id +'"qty":"'+qte+'"}"',   
+			        complete:function(responseData, status, xhttp){
+			        	updateCartItemCount();
+			        }
+			    }); 
+			}
+	     		
+	</script>
+  </head> 
+<body class="mainback">
+    <th:block th:include="/header"></th:block>
+         
+	<h1 class="text-center mb-4 font-effect-shadow-multiple" id="slogan"><i>« NOUS EXISTONS POUR VOUS »</i></h1>
+	
+    <!--Début de la diaporama--> 
+  <div th:if="${listenouveauxproduits ne null}">    
+	<hr>
+    <h2 class="text-center titre bg-primary">PRODUITS VEDETTES</h2>
+    <hr>
+    <div class="container mt-3">
+      <div class="row">
+        <div class="col-12 mx-auto">
+          <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <!--<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>-->
+            
+            <button type="button" data-bs-target="#carouselExampleCaptions" th:each="prod, iter : ${listenouveauxproduits}" th:class="${iter.index}==0 ? 'active':''" th:attr="data-bs-slide-to=${iter.index}"></button>
+
+          </div>
+          <div class="carousel-inner" >
+        
+             <div th:each="prod, iter : ${listenouveauxproduits}" th:class="${iter.index}==0 ? 'carousel-item active':'carousel-item'">
+                <div class="container"><a th:href="@{'/produits/'+${prod.idproduit}}" style="text-decoration: none;">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last zoom-image2">
+                            <span class="badge bg-primary">Nouveau</span>
+                            <img th:src="@{${prod.MainImagePath}}" alt="Photo produit" width="100%" height="100%"/>
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left align-self-center">
+                                <h1 class="h1 text-success" style="text-transform:uppercase;"><b>[[${prod.designation}]]</b></h1>
+                           
+	                                <ul class="list-unstyled d-flex justify-content-between">
+		                                <li>
+		                                    <i class="text-warning fa fa-star"></i>
+		                                    <i class="text-warning fa fa-star"></i>
+		                                    <i class="text-warning fa fa-star"></i>
+		                                    <i class="text-muted fa fa-star"></i>
+		                                    <i class="text-muted fa fa-star"></i>
+		                                </li>
+		                                <li class="text-right text-primary"><b>[[${prod.prix}]]&nbsp;FCFA</b></li>
+	                            	</ul>
+                            
+                                <p style="color:black;">
+                                    [[${prod.description}]]
+                                </p>
+                            </div>
+                        </div>
+                    </div></a>
+                </div>
+            </div>           
+        
+            
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        </div>
+      </div>
+    </div>    
+ </div>       
+    <!--Fin de la diaporama-->   
+     <hr>
+        <h2 class="text-center titre bg-primary">PRODUITS RECOMMANDES</h2>
+          
+       <th:block th:each="categorie : ${listecategories}" >
+	    <hr/>
+	    <div class="zoom-zone1 bg-primary mt-4 titre2 col-md-6 mx-auto">
+	     <a th:href="@{'/categorie/'+${categorie.idcategorie}}" style="text-decoration:none;text-transform:uppercase;"> <h2 class="text-center titre"><img th:src="@{'/photocat/'+${categorie.idcategorie}}" alt="Photo catégorie" height="50px" width="50px" style="border-radius: 50px;"/>&nbsp;<th>[[${categorie.nomcategorie}]]</th></h2></a></div> 
+	    <hr/>
+	    <div class="container">
+		      <div class="row text-center">
+		        <div class="col-md-4 pb-1 pb-md-0 mt-3" th:each="pdt : ${listeproduits}" th:if="${categorie == pdt.categorie}">
+		          <div class="card zoom-image">
+		          <a th:href="@{'/produits/'+${pdt.idproduit}}"><img class="card-img-top" style="border:2px solid blue;" th:src="@{${pdt.MainImagePath}}" height="220px" alt="Image produit"></a>
+		            <div class="card-body">
+		              <h5 class="card-title" style="text-transform:uppercase;">[[${pdt.designation}]]</h5>
+		             <!-- <p class="card-text">Caractéristiques:<span style="text-transform: capitalize;">[[${pdt.description}]]</span>	</p>-->
+		              <p class="card-text">Prix:[[${pdt.prix}]] FCFA</p>           <!--balise th pas obligatoire autour
+		              <p class="card-text">Quantité :[[${pdt.qtestock}]]</p>-->      
+                      <button class="btn btn-primary rounded-pill" th:onclick="|AddProductToCart('${pdt.idproduit}','${1}')|" data-bs-toggle="modal" data-bs-target="#staticBackdropLive">Ajouter au panier</button>
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+	   </div>
+       </th:block>
+    
+    
+    <div class="modal fade" id="staticBackdropLive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="staticBackdropLiveLabel">Message du panier</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <p>Produit ajouté au panier avec succès !</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+    <th:block th:include="/footer"></th:block>
+      
+  </body>
+</html>

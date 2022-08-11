@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestion des produits</title>
+	<link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" th:href="@{/images/favicon.ico}">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link href="../static/css/mystyle.css" th:href="@{/css/mystyle.css}" rel="stylesheet">
+    <link href="../static/css/cheatsheet.css" th:href="@{/css/cheatsheet.css}" rel="stylesheet">
+    <link href="../static/css/fontawesome/css/all.css" th:href="@{/css/fontawesome/css/all.css}" rel="stylesheet">
+     
+  </head> 
+<body class="mainback">
+
+ <th:block th:include="/_header"></th:block>
+ <!-- <div class ="container justify-content-center"> -->
+	   <div class="bg-primary mt-4 titre2 mb-4"> 
+	    <h1 align="center">Liste des produits</h1>
+	   </div>
+	   <hr/>
+	   <div class="row mt-4">
+	      <div class="col">
+	        <a th:href="@{/produits/new}" class="btn btn-success">Nouveau produit</a>
+	      </div>
+	   </div>
+	   <div class="row">
+	     <!-- <tr>-->
+	        <div align="center">
+	        <div class="panel-body" align="center">
+	          <table class="table table-striped" style="border: 2px solid black;">
+	          <thead class="thead-dark">
+	          <tr>
+	           <th>ID produit</th> 
+	           <th>Désignation</th> 
+	           <th>Description</th>
+	           <th>Photo</th>
+	           <th>Quantité</th>
+	           <th>Prix</th>
+	           <th>ID Catégorie</th>  
+	           <th sec:authorize="hasAuthority('ADMIN')">Action</th>  
+	          </tr>
+	          <tbody>
+	             <tr th:each="produit : ${listeproduits}">
+		             <td th:text="${produit.idproduit}">ID Produit</td>
+			         <td th:text="${produit.designation}">Nom Produit</td>
+		             <td th:text="${produit.description}">Description Produit</td>
+		             <td><img th:src="@{'/photoproduit/'+${produit.idproduit}}" alt="Photo Produit" height="50px" width="50px"/></td>
+		             <td th:text="${produit.qtestock}">Quantité Produit</td>
+		             <td th:text="${produit.prix}">Prix Produit</td>
+		             <td th:text="${produit.categorie.idcategorie}">ID Catégorie</td>  
+		             <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{'/produits/edit/'}+${produit.idproduit}" class="btn btn-primary">
+		             &nbsp;&nbsp;&nbsp;&nbsp;Editer&nbsp;&nbsp;&nbsp;</a>
+		             <a th:href="@{'/produits/del/'}+${produit.idproduit}" class="btn btn-danger">Supprimer</a></td>
+	             </tr>                                              
+	          </tbody>  
+	        </table> 
+	       </div>
+	       </div>
+	   </div> 
+	<!--</div>-->
+   <th:block th:include="/_footer"></th:block>
+
+</body>
+</html>

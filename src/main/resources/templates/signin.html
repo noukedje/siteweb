@@ -1,0 +1,81 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Noukedje Njampou Bruneau">
+    <title>Authentication</title>
+	<link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" th:href="@{/images/favicon.ico}">
+    <!-- Bootstrap -->
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link href="../static/css/mystyle.css" th:href="@{/css/mystyle.css}" rel="stylesheet">
+    <link href="../static/css/form-validation.css" th:href="@{/css/form-validation.css}" rel="stylesheet">  
+    <link href="../static/css/signin.css" th:href="@{/css/signin.css}" rel="stylesheet">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+  </head>
+  
+<body class="text-center">
+       
+	<main class="form-signin">
+        
+	   <div th:if="${param.error}">
+	      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+	          Username of password invalid.
+	         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	      </div>
+         
+        </div>
+        <div th:if="${param.logout}">
+           <div class="alert alert-danger alert-dismissible fade show" role="alert">
+	          You logged out.
+	         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	       </div>
+        </div> 
+        
+	  <form th:action="@{/users/auth}" method="POST" class="p-2 border rounded-3 mb-5 needs-validation" novalidate>
+	    <img class="mb-4 rounded-circle" src="../static/images/logo.jpg" th:src="@{/images/logo.jpg}" alt="" width="72" height="72"><!-- rounded-circle-->
+	    <h1 class="h3 mb-3 fw-normal" style="color:white;">Please log in !'</h1>
+	
+	    <div class="form-floating">
+	      <input type="text" class="form-control" name="username" id="idusername" placeholder="Nom utilisateur" required>
+	      <label for="idusername">Username</label>
+	    </div>
+	    <div class="form-floating">
+	      <input type="password" class="form-control" name="password" id="idpassword" placeholder="Mot de passe" required>
+	      <label for="idpassword">Password</label>  
+	    </div>
+	
+	    <div class="checkbox mb-3">
+	      <label>
+	        <input type="checkbox" value="remember-me"> <span style="color:white;">Remember me</span>
+	      </label>
+	    </div>
+	    <button class="w-100 btn btn-lg btn-primary" type="submit">Log in</button> <!-- type="submit"-->
+	    <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+	  </form>
+	</main>
+
+    <script src="../static/js/jquery-3.6.0.min.js" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="../static/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script src="../static/js/form-validation.js" th:src="@{/js/form-validation.js}"></script>
+    <!--<script src="../static/js/ihm.js" th:src="@{/js/ihm.js}"></script>-->
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Panneau d'administration</title>
+	<link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" th:href="@{/images/favicon.ico}">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link href="../static/css/mystyle.css" th:href="@{/css/mystyle.css}" rel="stylesheet">
+    <link href="../static/css/cheatsheet.css" th:href="@{/css/cheatsheet.css}" rel="stylesheet">
+    <link href="../static/css/fontawesome/css/all.css" th:href="@{/css/fontawesome/css/all.css}" rel="stylesheet">
+  
+  </head> 
+  <body class="mainback">
+  
+         <th:block th:include="/_header"></th:block>
+         
+         <div>
+            <h1>[[${welcome}]]</h1>
+         </div>
+          
+         <th:block th:include="/_footer"></th:block>
+   
+  </body>
+</html>

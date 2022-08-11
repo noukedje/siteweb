@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestion des catégories</title>
+	<link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" th:href="@{/images/favicon.ico}">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet">  
+	<link href="../static/css/mystyle.css" th:href="@{/css/mystyle.css}" rel="stylesheet">
+    <link href="../static/css/cheatsheet.css" th:href="@{/css/cheatsheet.css}" rel="stylesheet">
+    <link href="../static/css/fontawesome/css/all.css" th:href="@{/css/fontawesome/css/all.css}" rel="stylesheet">
+     <script src="../static/js/jquery-3.6.0.min.js" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+     <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+     <script type="text/javascript" th:src="@{/js/highcharts.js}"></script>
+     <script type="text/javascript" th:src="@{/js/exporting.js}"></script>
+     <script type="text/javascript" th:inline="javascript"> 
+        $(function(){
+		Highcharts.chart('container',{
+		  chart:{
+		    type:'column'
+		  },
+		  title:{
+		    text:'Graphique des commandes par produit'
+		  },
+		  subtitle:{
+		    text:''
+		  },
+		  xAxis:{
+		     categories:[[${nom}]],
+			 crosshair:true
+		  },
+		  yAxis:{
+		     min:0,
+			 max:10000,
+			 title:{
+			   text:'<b>Montant</b>'
+			 }
+		  },
+		  tooltip:{
+		    headerFormat:'<span style="font-size:">{point.key}</span><table>',
+			pointFormat:'<tr><td style="color:{series.color};padding:0">{series.name};</td>'+
+			            '<td style="padding:0"><b>{point.y:.lf} ></b></td></tr>',
+		    footerFormat: '</table>',
+		    shared:true,
+		    useHTML:true	
+		  },
+		  plotOptions:{
+		    column:{
+		      pointPadding:0.2,
+			  borderWidth:0
+		    }   
+		  },
+		  series:[{
+		     name:'Produits',
+			 data:[[${mont}]]
+		  }]
+		  });
+		});  
+        
+        
+  
+        $(function(){
+		var piechartdata=/*[[${piechartdata}]]*/ [];
+		var series=[];
+		var data=[];
+		for (var i=0;i<piechartdata.length;i++){
+		  var object={};
+		  object.name=piechartdata[i].mois;
+		  object.y=piechartdata[i].montant;
+		  data.push(object);
+		}
+		var seriesObject={
+			name:'Total Ventes',
+			colorByPoint: true,
+			data: data
+		};
+		series.push(seriesObject);
+		drawPieChart(series);
+		function drawPieChart(series){
+		Highcharts.chart('graphecercle',{
+		  chart:{
+		      type:'pie',
+		      plotBackgroundColor:null,
+		      plotBorderWidth:null,
+		      plotShadow:false,
+			  options3d:{
+			  enabled:true,
+			  alpha:50,
+			  beta:0
+			},
+		  },
+		  title:{
+		    text:'Graphique des ventes mensuelles'
+		  },
+		  tooltip:{
+		     pointFormat:'{series.name}:<b>{point.y}</b>'
+		  },
+		  plotOptions:{
+		    pie:{
+		      allowPointSelect:true,
+			  cursor:'pointer',
+			  depth:35,
+			  dataLables:{
+			    enabled:true,
+				format:'<b>{point.name}</b>: {point.y}'
+			  }
+		    }   
+		  },
+		  series:series
+		  });
+		  }
+		})();    
+	</script>
+  </head> 
+<body class="mainback">
+
+     <th:block th:include="/_header"></th:block>
+       
+       <div class="bg-primary mt-4 titre2 mb-4"> 
+	    <h1 align="center">LISTE DES COMMANDES</h1>
+	   </div>
+	   <hr/>
+	   <div class="row">
+	     <div class="bg-primary col-4 titre2 mx-auto">
+	        <p align="center" style="font-weight:bold">COMMANDE DE PRODUITS</p>
+	     </div> 
+	   </div>
+	   <div class="row mt-4">
+	     <div class="col">
+	        <div id="container" style="width:550px;height:400px;margin:0 auto"></div>
+	     </div>
+	   </div> 
+	   <div class="row mt-4">
+	     <div class="col">
+	        <div id="graphecercle" style="width:550px;height:400px;margin:0 auto"></div>
+	     </div>
+	   </div>
+	   <div class="row mt-4">	    
+	       <div align="center">
+	          <div class="panel-body" align="center">
+	          <table class="table" style="width:100%;border:2px solid black;">
+		          <thead class="thead-dark">
+		          <tr>
+			         <th>N°commande</th> 
+			         <th>Nom article</th>
+			         <th>Date commande</th> 
+			         <th>Quantité commandée</th>
+			         <th>Montant</th>
+		          </tr>
+		          <tbody>
+		             <tr th:each="cde : ${commandeproduits}">
+			             <td th:text="${cde.idcommande}">N°commande</td>
+				         <td th:text="${cde.designation}">Nom produit</td>
+				         <td th:text="${cde.datecde}">Date commande</td>
+			             <td th:text="${cde.qtecdee}">Quantité commandée</td>
+			             <td th:text="${cde.prix}*${cde.qtecdee}">Montant</td>  
+			         </tr>  
+		          </tbody>  
+	         </table>
+		   </div>
+		   </div>
+	    </div> 
+	   <hr/>
+	   <hr/> 
+       <div class="row mt-4">
+	      <div class="bg-primary col-4 titre2 mx-auto">
+	          <p align="center" style="font-weight:bold">COMMANDES DE SERVICES</p>
+	      </div>
+	   </div> 
+	      <div class="row mt-4">	    
+	       <div align="center">
+	          <div class="panel-body" align="center">
+	          <table class="table" style="width:100%;border:2px solid black;">
+		          <thead class="thead-dark">
+		          <tr>
+		             <th>Id commande</th> 
+			         <th>Nom client</th> 
+			         <th>Nom du service</th>
+			         <th>Date commande</th> 
+			         <th>Lieu du service</th> 
+			      </tr>
+		          <tbody>
+		             <tr th:each="cde : ${commandeservices}">
+			             <td th:text="${cde.id}">N°client</td>
+				         <td th:text="${cde.nomclient}">Nom client</td>
+				         <td th:text="${cde.nomservice}">Nom service</td>
+			             <td th:text="${cde.datecde}">Date commande</td>
+			             <td th:text="${cde.lieu}">Lieu</td>  
+			         </tr>  
+		          </tbody>  
+	         </table>
+		   </div>
+		   </div>
+	    </div> 
+   <th:block th:include="/_footer"></th:block>
+    
+</body>
+</html>	   

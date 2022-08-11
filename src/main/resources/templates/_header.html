@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <span class="fs-5 d-none d-sm-inline">Menu</span>
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li class="nav-item">
+                        <a th:href="@{/home/fr}" class="nav-link align-middle px-0">
+                            <i class="fs-4 fa fa-home"></i> <span class="ms-1 d-none d-sm-inline">Accueil</span></a>  
+                    </li>
+                    <li sec:authorize="hasAuthority('ADMIN')">   
+                       <a th:href="@{/admin/users}" class="nav-link px-0 align-middle">
+                       <i class="fs-4 fa fa-address-card"></i> <span class="ms-1 d-none d-sm-inline">Utilisateurs</span></a>
+                    </li>
+                    <li>
+                       <a th:href="@{/admin/categories}" class="nav-link px-0 align-middle">
+                       <i class="fs-4 fa fa-dedent"></i> <span class="ms-1 d-none d-sm-inline">Catégories</span> </a>
+                    </li>
+                     <li>
+                       <a th:href="@{/admin/produits}" class="nav-link px-0 align-middle">
+                       <i class="fs-4 fa fa-codiepie"></i> <span class="ms-1 d-none d-sm-inline">Produits</span> </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/services}" class="nav-link px-0 align-middle">
+                            <i class="fs-4 fa fa-server"></i> <span class="ms-1 d-none d-sm-inline">Services</span> </a>
+                    </li>
+                    <li sec:authorize="hasAuthority('ADMIN')"> 
+                        <a th:href="@{/admin/commandes}" class="nav-link px-0 align-middle">
+                            <i class="fs-4 fa fa-book"></i> <span class="ms-1 d-none d-sm-inline">Commandes</span></a>
+                    </li>
+                    <li sec:authorize="hasAuthority('ADMIN')">
+                        <a th:href="@{/users/histo}" class="nav-link px-0 align-middle">
+                            <i class="fs-4 fa fa-list"></i> <span class="ms-1 d-none d-sm-inline">Historiques</span> </a>
+                    </li>
+                </ul>
+                
+                <hr>
+                <div class="dropdown pb-4">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                      <span class="d-none d-sm-inline mx-1"></span><!--Retourne le nom du connecté-->
+                      
+                       <span sec:authentication="Name">User3</span>
+						
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                        <!--<li><a class="dropdown-item" href="#">Configuration</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>-->
+                        <li><a class="dropdown-item" th:href="@{/logout1}">Se déconnecter</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+           <div class="col-12 py-3">
+           
+           

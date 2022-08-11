@@ -1,0 +1,46 @@
+ <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+          <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{'/home/en'}">
+              <img src="../static/images/logo.jpg" th:src="@{/images/logo.jpg}" style="border-radius:5px;" width="38" height="30" class="d-inline-block align-top" alt="Bootstrap" loading="lazy">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" th:href="@{/login}">Admin</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Products
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+	                <th:block  th:each="categorie : ${menucategories}" >
+	                    <li><a class="dropdown-item" th:href="@{'/categories/'+${categorie.idcategorie}}">[[${categorie.nomcategorie}]]</a></li>
+	                </th:block>  
+                 
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" th:href="@{/home/en}">All categories</a></li>
+                  </ul>
+                </li>
+				<li class="nav-item">
+                  <a class="nav-link" th:href="@{/services/all}">Services</a>
+                </li>
+				<!--<li class="nav-item">
+                  <a class="nav-link" th:href="@{'/cart'}">Panier</a>
+                </li>-->
+                <li class="nav-item">
+                  <a class="nav-link" th:href="@{/about}" tabindex="-1">Who are we ?</a>
+                </li>
+              </ul>
+              <div class="d-flex mx-5">
+                 <a class="nav-link" th:href="@{/cart}"><i class="fi-xnsxhx-shopping-cart-solid" style="color:red;font-weight:bold;"></i></a>   
+              </div>
+              <form class="d-flex" th:action="@{/produits/search/}" method="post">
+                <input class="form-control me-2" name="nom" value="" type="search" placeholder="Find products" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Find</button>
+              </form>
+            </div>
+          </div>
+        </nav>

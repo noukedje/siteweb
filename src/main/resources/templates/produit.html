@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bienvenue sur Reference-Plus</title>
+	<link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" th:href="@{/images/favicon.ico}">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link href="../static/css/mystyle.css" th:href="@{/css/mystyle.css}" rel="stylesheet">
+    <link href="../static/css/form-validation.css" th:href="@{/css/form-validation.css}" rel="stylesheet">  
+ 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=neon|outline|emboss|shadow-multiple">
+ 	<link href="../static/css/form-validation.css" th:href="@{/css/form-validation.css}" rel="stylesheet">  
+   <link href="../static/css/fontawesome/css/all.css" th:href="@{/css/fontawesome/css/all.css}" rel="stylesheet">
+     <script defer src="../static/js/friconix-0.2248.js" th:src="@{/js/friconix.js}"> </script>
+	<style>
+		body {
+		  font-family: "Sofia", sans-serif;
+		}
+	</style>
+	<script>
+	    function AddProductToCart(id,qte)
+			{
+				$.ajax ({ 
+			        url: '/cart/items/'+id+'/'+qte,
+			        type: 'POST', 
+			        //dataType: 'json',
+			        //contentType: 'application/json',
+			        //data : '{"id":"'+ id +'"qty":"'+qte+'"}"',   
+			        complete:function(responseData, status, xhttp){
+			        	updateCartItemCount();
+			        }
+			    }); 
+			}
+	     		
+	</script>
+  </head> 
+<body class="mainback">
+    <th:block th:include="/header"></th:block>
+    <h1 class="text-center mb-4 font-effect-shadow-multiple" id="slogan"><i>« NOUS EXISTONS POUR VOUS »</i></h1>
+     <hr/>
+     
+      <div class="container bg-secondary" th:object="${produit}">
+         <div class="row">
+           <div class="col-md-8 bg-primary mt-4 titre2 mx-auto">
+	          <h2 class="text-center titre" style="transform: uppercase;">PRODUIT : [[*{designation}]]</h2>
+           </div> 
+	     </div>
+	    <div class="row mt-4 mb-2">
+	        <div class="col-md-3 mx-auto"> 
+	          <p><button class="btn btn-primary rounded-pill mt4-" th:onclick="|AddProductToCart('${produit.idproduit}','${1}')|" data-bs-toggle="modal" data-bs-target="#staticBackdropLive">Ajouter au panier</button>
+	           </p>
+	        </div>
+	    </div> 
+	     <div class="row mt-4 mb-4">
+		    <div class="zoom-zone1 col-md-2 mx-auto">
+		       <img th:src="@{'/photoproduit/'+*{idproduit}}" alt="Photo produit" height="400px" width="300px" style="border-radius: 50px;"/>
+		    </div> 
+		    <div class="col-md-4 m-3 mx-auto">
+		       <h1><u>Caractéristiques:</u> <p style="transform: capitalize;">[[*{description}]]</p></h1>
+		       <h1><u>Prix:</u><p>[[*{prix}]] FCFA</p></h1>
+		       <h1><u>Quantité:</u><p>[[*{qtestock}]]</p></h1>
+		    </div>
+		
+	     </div>
+     </div>
+    <div class="modal fade" id="staticBackdropLive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="staticBackdropLiveLabel">Message du panier</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <p>Produit ajouté avec succès au panier !</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+   <th:block th:include="/footer"></th:block>
+</body>
+</html>

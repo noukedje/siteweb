@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Référence-Plus / Gestion des utilisateurs</title>
+	<link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" th:href="@{/images/favicon.ico}">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link href="../static/css/mystyle.css" th:href="@{/css/mystyle.css}" rel="stylesheet">
+    <link href="../static/css/cheatsheet.css" th:href="@{/css/cheatsheet.css}" rel="stylesheet">
+    <link href="../static/css/fontawesome/css/all.css" th:href="@{/css/fontawesome/css/all.css}" rel="stylesheet">
+    <link href="../static/css/form-validation.css" th:href="@{/css/form-validation.css}" rel="stylesheet">  
+       <script > 
+     
+      function ChangePermissions(index){
+	    //var index=$("#idrole option:selected").index();  //$("select option:selected").val()
+	    switch (index){
+		case 0:document.getElementById("perm").value="Lecture et Ajout : Produit, Catégorie et Services";break;
+		case 1:document.getElementById("perm").value="Lecture, Ajout, Modification et Suppression de tout";break;   
+        }
+       }   
+      
+    </script>
+  </head> 
+<body class="mainback">
+    <th:block th:include="/_header"></th:block>
+    <div class="bg-primary titre2"> 
+	       <h1 align="center">Edition des utilisateurs</h1>
+	    </div>
+	    <div th:if="${message ne null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+	     <p th:text="${message}" align="center">Erreur de saisie</p>
+	      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	    </div>
+        <form class="p-2 border rounded-3 mb-5 needs-validation" th:action="@{'/users/update/'+${utilisateur.userid}}" th:object="${utilisateur}" method="post" novalidate>
+         <div class="row mb-2">
+            <div class="col-6"> 
+		        <label class="form-label">Nom utilisateur</label> 
+		        <input type="hidden" th:field="*{userid}"/> <!--on peut écrire ${utilisateur.userid} mais aussi *{idutilisateur}-->
+				<input type="text" class="form-control" th:field="*{username}" placeholder="Nom utilisateur" minlength="3" maxlength="10" required/>
+				<div class="invalid-feedback"> Obligatoire et 3 caractères au minimum </div>
+            </div>
+             <div class="col-6">                               <!--th:attr="onchange=|ChangePermissions(this.selectedIndex)|"-->
+				<label class="form-label">Rôle</label>         <!--th:onsubmit="|changebutton('${student.id}','${student.name}');|"-->
+		        <select class="form-select" th:field="*{role}" th:onchange="|ChangePermissions(this.selectedIndex)|"> <!--this remplace document.users.role-->
+		           <option th:value="'USER'" selected>Invité</option>
+		           <option th:value="'ADMIN'">Administrateur</option>
+		        </select>
+		    </div>
+         </div>
+         <div class="row mb-2">
+            <div class="col-8"> 
+		        <label class="form-label">Permissions</label> 
+				 <textarea th:field="*{permis}" id="perm" class="form-control" rows="2" minlength="10" readonly>Lecture et Ajout : Produit, Catégorie et Services</textarea>
+            </div>
+            <div class="col-4 form-check">
+               <input type="checkbox" class="form-check-input" id="actif" th:field="*{Active}" th:checked="${utilisateur.Active}" onchange="ChangeLabel(this.checked)"> <!--en mettant isActive comme dans l'objet, il y aura erreur'-->
+               <label class="form-check-label" for="actif" id="label">Utilisateur désactivé</label>
+            </div>
+         </div>   
+         <div class="row mb-2">
+	        <div class="col-6">
+	          <label for="Password1">Mot de passe</label>
+	          <input type="password" class="form-control" th:field="*{password1}" placeholder="Mot de passe" required minlength="8">
+	          <div class="invalid-feedback"> Obligatoire et 8 caractères au minimum </div>
+	        </div>
+	        <div class="col-6">
+	          <label for="Password2">Confirmer </label>
+	          <input type="password" class="form-control" th:field="*{password2}" placeholder="Confirmer le mot de passe" required minlength="8">
+	          <div class="invalid-feedback"> Obligatoire et 8 caractères au minimum </div>
+	        </div>
+	      </div>  
+        <div class="row g-3 mt-2">
+	        <div class="col" align="center">
+	           <button type="submit" class="btn btn-info">Editer l'utilisateur</button>
+	        </div>
+        </div>
+     </div>   
+    </form> 
+    <th:block th:include="/_footer"></th:block>
+    <script>
+          function ChangeLabel(actif){
+	          document.getElementById("label").innerHTML=actif==true ? "Utilisateur activé":"Utilisateur désactivé";  
+          }
+         $(document).ready(function(){
+	          document.getElementById("perm").value="Lecture et Ajout : Produit, Catégorie et Services";
+	          ChangeLabel($("#actif").attr("checked")=='checked' ? true:false); //attr("checked") renvoie 'checked' au lieu de true
+          })
+    </script>
+</body>
+</html>

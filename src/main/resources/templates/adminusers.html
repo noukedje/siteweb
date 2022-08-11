@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestion des catégories</title>
+	<link rel="icon" type="image/x-icon" href="../static/images/favicon.ico" th:href="@{/images/favicon.ico}">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link href="../static/css/mystyle.css" th:href="@{/css/mystyle.css}" rel="stylesheet">
+    <link href="../static/css/cheatsheet.css" th:href="@{/css/cheatsheet.css}" rel="stylesheet">
+    <link href="../static/css/fontawesome/css/all.css" th:href="@{/css/fontawesome/css/all.css}" rel="stylesheet">
+  </head> 
+<body class="mainback">
+   <th:block th:include="/_header"></th:block>    
+   <div class="bg-primary mt-4 titre2"> 
+    <h1 align="center">Liste des utilisateurs</h1>
+   </div>
+   <div th:if="${message ne null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+     <p th:text="${message}" align="center">Erreur de saisie</p>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+   <div class="row mt-4">
+      <div class="col">
+        <a th:href="@{/users/new}" class="btn btn-success">Nouvel utilisateur</a>
+      </div>
+	</div>
+	   <div class="row">
+          <tr>
+         <div align="center">
+          <div class="panel-body" align="center">
+          <table class="table" style="border:2px solid black;">
+          <thead class="thead-dark">
+          <tr>
+           <th>ID utilisateur</th> 
+           <th>Nom utilisateur</th> 
+           <th>Role</th>
+           <th>Etat</th>
+           <th>Action</th>  
+          </tr>
+          <tbody>
+             <tr th:each="utilisateur : ${listeusers}">
+             <td th:text="${utilisateur.userid}">ID utilisateur</td>
+	         <td th:text="${utilisateur.username}">Nom utilisateur</td>
+             <td th:text="${utilisateur.role}=='USER'? 'Invité':'Administrateur'">Rôle</td>
+             <td th:text="${utilisateur.Active}==true ? 'Actif':'Inactif' "></td>
+             <td><a class="btn btn-primary" th:href="${'/users/edit/'}+${utilisateur.userid}">Editer</a>
+             <a class="btn btn-danger" th:href="${'/users/del/'}+${utilisateur.userid}">Supprimer</a></td>
+             </tr>
+          </tbody>  
+        </table>
+        </div>
+		 </div>
+	  </div> 
+    <th:block th:include="/_footer"></th:block>
+</body>
+</html>
